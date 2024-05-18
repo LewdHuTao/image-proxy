@@ -18,6 +18,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// temporarily send this
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+});
+
 const upload = multer({ dest: "uploads/" });
 
 app.post("/upload", upload.single("image"), async (req, res) => {
