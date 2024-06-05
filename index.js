@@ -15,17 +15,12 @@ app.use(bodyParser.json({ limit: "100mb" }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 app.use((req, res, next) => {
   req.headers["user-agent"] = "Custom-User-Agent";
+  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
   next();
 });
 
-app.use(express.static(path.join(__dirname, "public")));
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "home.html"))
-});
-
-app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
 
 const upload = multer({ dest: "uploads/" });
