@@ -24,10 +24,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "public", "home.html"))
 });
 
-app.all('*', (req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
-});
-
 const upload = multer({ dest: "uploads/" });
 
 app.post("/upload", upload.none(), async (req, res) => {
