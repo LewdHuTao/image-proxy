@@ -71,14 +71,14 @@ async function clearUploadsFolder() {
     const files = await fs.readdir(uploadDir);
 
     const now = Date.now();
-    const fiveHours = 5 * 60 * 60 * 1000; // 5 hours
+    const timer = 8 * 60 * 1000
 
     for (const file of files) {
       const filePath = path.join(uploadDir, file);
       const stats = await fs.stat(filePath);
       const fileAge = now - stats.birthtimeMs;
 
-      if (fileAge > fiveHours) {
+      if (fileAge > timer) {
         await fs.unlink(filePath);
       }
     }
