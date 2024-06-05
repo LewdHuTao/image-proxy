@@ -30,11 +30,11 @@ To use the image proxy service:
 
 #### Before:
 
-![Before](https://img.youtube.com/vi/Kf5pXDhx5Vc/maxresdefault.jpg)
+![Before](./assets//no-edit.png)
 
 #### After:
 
-![After](https://media.discordapp.net/attachments/897715616155328542/1239406758699597865/ec342970-1068-4615-8624-7f389d45fc8b.jpg?ex=6642cefe&is=66417d7e&hm=ad300be54920fba62c1c73ff4ab36335bb87460f6e6871ba430f283257e1ccbf&=&format=webp)
+![After](./assets//edit.png)
 
 ## Contributing
 
