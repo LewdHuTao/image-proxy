@@ -18,9 +18,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// temporarily send this
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.sendFile(path.join(__dirname, "public", "home.html"))
+});
+
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
 
 const upload = multer({ dest: "uploads/" });
