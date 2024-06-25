@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 3000;
 const URL = process.env.URL || "media.shittybot.xyz";
 require("dotenv").config();
 
-app.use(bodyParser.json({ limit: "100mb" }));
-app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
+app.use(bodyParser.json({ limit: "10000mb" }));
+app.use(bodyParser.urlencoded({ limit: "10000mb", extended: true }));
 app.use((req, res, next) => {
   req.headers["user-agent"] = "Custom-User-Agent";
   next();
