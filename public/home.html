@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Image Proxy Service</title>
+  <title>Home - File Proxy Service</title>
   <style>
     body {
       background-color: #121212;
@@ -16,35 +16,102 @@
       padding: 30px;
       margin-top: 50px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      display: inline-block;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
     }
     h1 {
-      font-size: 50px;
+      font-size: 36px;
       color: #fff;
+      margin-bottom: 20px;
     }
     p {
-      font-size: 20px;
-      color: #fff;
+      font-size: 18px;
+      color: #ddd;
+      margin-bottom: 20px;
     }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="file"],
+    select {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    input[type="submit"] {
       background-color: #007bff;
       color: #fff;
-      text-decoration: none;
+      padding: 10px 20px;
+      border: none;
       border-radius: 5px;
+      cursor: pointer;
       transition: background-color 0.3s;
+      font-size: 16px;
+      margin-top: 20px;
     }
-    a:hover {
+    input[type="submit"]:hover {
       background-color: #0056b3;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    label {
+      color: #fff;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to Image Proxy Service</h1>
+    <h1>Welcome to File Proxy Service</h1>
+    <form id="upload-form" enctype="multipart/form-data" action="/web/upload" method="POST">
+      <div class="input-group">
+        <label for="file">Select File (Image or Video):</label>
+        <input type="file" id="file" name="file" accept="image/*,video/mp4" required />
+      </div>
+      <div class="input-group">
+        <label for="duration">Select Duration:</label>
+        <select id="duration" name="duration" required>
+          <option value="3600000">1 Hour</option>
+          <option value="86400000">1 Day</option>
+          <option value="604800000">1 Week</option>
+          <option value="forever">Forever</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="bearer-key">Bearer Key:</label>
+        <input type="password" id="bearer-key" name="bearer-key" required />
+      </div>
+      <input type="submit" value="Upload File" />
+    </form>
   </div>
+  <script>
+    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const bearerKey = formData.get('bearer-key');
+      formData.delete('bearer-key'); // Remove bearer key from form data to avoid sending it as form data
+
+      const response = await fetch('/web/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${bearerKey}`
+        }
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert(`File uploaded successfully! URL: ${result.fileUrl}`);
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    });
+  </script>
 </body>
 </html>
