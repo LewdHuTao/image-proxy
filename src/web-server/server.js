@@ -8,7 +8,7 @@ async function processFile(filePath, filename) {
   try {
     const uploadPath = path.join(storageDir, filename);
     await fs.rename(filePath, uploadPath);
-    return `http://localhost:3000/image/${filename}`;
+    return `http://media.shittybot.xyz/image/${filename}`;
   } catch (error) {
     logger.error("Error processing file:", error);
     throw error;
