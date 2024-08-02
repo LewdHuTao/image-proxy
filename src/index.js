@@ -4,12 +4,14 @@ const logger = require("./logger");
 const webRouter = require("./web-server/router");
 const ytRouter = require("./yt-server/router");
 
-require("dotenv").config();
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = require("./config").PORT;
 
-app.use("/image", express.static(path.join(__dirname, "web-server", "storage")));
+app.use(
+  "/media",
+  express.static(path.join(__dirname, "web-server", "storage"))
+);
+app.use("/media", express.static(path.join(__dirname, "yt-server", "storage")));
 app.use("/web", webRouter);
 app.use("/yt", ytRouter);
 

@@ -1,13 +1,15 @@
 const express = require("express");
 const multer = require("multer");
-const { processImage } = require("./server");
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
+const { processImage, scheduleDeletion } = require("./server");
 const router = express.Router();
 
-const upload = multer({ dest: "uploads/" });
+const storageDir = path.join(__dirname, "storage");
+const upload = multer({ dest: storageDir });
 
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "home.html"));
-});
+router.use(express.json({ limit: "1000mb" }));
+router.use(express.urlencoded({ extended: true, limit: "1000mb" }));
 
 router.post("/upload", upload.none(), async (req, res) => {
   try {
@@ -18,13 +20,16 @@ router.post("/upload", upload.none(), async (req, res) => {
     const imageBuffer = Buffer.from(req.body.image, "base64");
     const uniqueFilename = uuidv4() + ".jpg";
     const processedImageUrl = await processImage(imageBuffer, uniqueFilename);
+
+    scheduleDeletion(uniqueFilename, 8 * 60 * 1000);
+
     res.status(200).json({ imageUrl: processedImageUrl });
   } catch (error) {
-    logger.error("Error uploading image:", error.message);
+    console.error("Error uploading image:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-router.use("/upload", express.static("uploads"));
+router.use("/upload", express.static("storage"));
 
 module.exports = router;

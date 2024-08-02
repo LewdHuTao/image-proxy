@@ -4,11 +4,19 @@ const logger = require("../logger");
 
 const storageDir = path.join(__dirname, "storage");
 
+let url;
+
+if (require("../config").PRODUCTION === true) {
+  url = require("../config").DOMAIN;
+} else {
+  url = `localhost:${require("../config").PORT}`;
+}
+
 async function processFile(filePath, filename) {
   try {
     const uploadPath = path.join(storageDir, filename);
     await fs.rename(filePath, uploadPath);
-    return `http://media.shittybot.xyz/image/${filename}`;
+    return `http://${url}/media/${filename}`;
   } catch (error) {
     logger.error("Error processing file:", error);
     throw error;
@@ -29,5 +37,5 @@ function scheduleDeletion(filename, expirationTime) {
 
 module.exports = {
   processFile,
-  scheduleDeletion
+  scheduleDeletion,
 };

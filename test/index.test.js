@@ -21,7 +21,7 @@ async function fetchYThumbnail() {
   async function uploadToOwnServer(imageBuffer) {
     try {
       const imageData = imageBuffer.toString("base64");
-      const response = await fetch("http://localhost:3000/upload", {
+      const response = await fetch("http://localhost:3000/yt/upload", {
         method: "POST",
         body: JSON.stringify({ image: imageData }),
         headers: {

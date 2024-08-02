@@ -69,7 +69,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to File Proxy Service</h1>
+    <h1>Shittybot Image Server</h1>
     <form id="upload-form" enctype="multipart/form-data" action="/web/upload" method="POST">
       <div class="input-group">
         <label for="file">Select File (Image or Video):</label>
@@ -96,7 +96,7 @@
       e.preventDefault();
       const formData = new FormData(e.target);
       const bearerKey = formData.get('bearer-key');
-      formData.delete('bearer-key'); // Remove bearer key from form data to avoid sending it as form data
+      formData.delete('bearer-key');
 
       const response = await fetch('/web/upload', {
         method: 'POST',
