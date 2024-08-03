@@ -2,6 +2,8 @@
 
 <img src="https://cdn.discordapp.com/avatars/884272327452393502/7942e8fa404c9e8fec4f8fd695087d91.webp?size=512" alt="Logo" width="200px" height="200px" style="border-radius:50%"/>
 
+TODO: update readme
+
 # image-proxy
 
 **A simple and lightweight Image Proxy service.**
