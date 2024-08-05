@@ -11,6 +11,21 @@ const upload = multer({ dest: storageDir });
 router.use(express.json({ limit: "1000mb" }));
 router.use(express.urlencoded({ extended: true, limit: "1000mb" }));
 
+router.use((req, res, next) => {
+  const bearerHeader = req.headers["authorization"];
+
+  if (typeof bearerHeader !== "undefined") {
+    const bearerToken = bearerHeader.split(" ")[1];
+    if (bearerToken === require("../config").BEARER_KEY) {
+      next();
+    } else {
+      res.status(403).json({ error: "Invalid Key." });
+    }
+  } else {
+    res.status(403).json({ error: "No Key Provided." });
+  }
+});
+
 router.post("/upload", upload.none(), async (req, res) => {
   try {
     if (!req.body.image) {

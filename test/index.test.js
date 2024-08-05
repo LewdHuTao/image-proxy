@@ -26,6 +26,7 @@ async function fetchYThumbnail() {
         body: JSON.stringify({ image: imageData }),
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${require("../src/config").BEARER_KEY}`
         },
       });
 
